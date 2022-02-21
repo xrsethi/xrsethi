@@ -10,10 +10,51 @@ using namespace std;
 *返回一个a的地址
 * *(a < b ? &a:&b) c编译通过，所以说c语言非常灵活，不要轻易说对c语言掌握的非常好
 */
-int main()
+//int main01()
+//{
+//	int a = 10;
+//	int b = 20;
+//	(a < b ? a : b) = 30;
+//	cout << a << b << endl;
+//}
+//continue 16 const基础用法
+//1.在C语言中const的表现，const主要看是修饰了指针本身还是修饰了指向的内存空间
+//  c语言中的const 是冒牌货
+/*
+*	const int a = 10;
+*	int *p = NULL;
+*	p = (int *)&a;
+*	*p = 20;
+*   已验证：在C中确实可以修改
+*/
+
+void main02()
 {
-	int a = 10;
-	int b = 20;
-	(a < b ? a : b) = 30;
-	cout << a << b << endl;
+	//const int a;
+	//int const b;	//一样
+	////观察const 放在星左面还是星右面
+	//const int* c;   //const修饰的是指针所指向的内存空间，不能被修改
+	//int* const d;	//const修饰的是指针本身，不能被修改
+	//const int* const e; //指针所指向的内存空间，不能被修改；指针本身也不能被修改
 }
+
+void main()
+{
+	const int a = 10;
+	int* p = NULL;
+	p = (int*)&a;
+	*p = 20;
+	printf("a = %d", a);  // a = 10
+}
+
+//可见在C++语言中const是个真正常量
+//2.原因：c++编译器会把变量放在 符号表中， key valude 当你做地址赋值时其实是另一块空间，都和符号表中数值没有关系
+//  所以在c++ const 是个真正的常量
+
+/*
+* 结论：
+* c: const变量是只读变量，有自己的存储空间
+* c++:可能分配空间也可能不分配空间，当const常量为全局，并且需要在其他文件中使用或者&操作符时才会分配空间
+*/
+
+//continue 17
