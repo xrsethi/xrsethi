@@ -38,7 +38,7 @@ void main02()
 	//const int* const e; //指针所指向的内存空间，不能被修改；指针本身也不能被修改
 }
 
-void main()
+void main03()
 {
 	const int a = 10;
 	int* p = NULL;
@@ -58,3 +58,19 @@ void main()
 */
 
 //continue 17
+//3 const 分配内的时机， 编译器编译时间，扫描之后发现取地址，在实际运行中到a就分配了
+
+//4 const 和 #define 的区别
+/*
+*  c++的const常量类似于宏定义：
+*  const int c = 5 约等于 #define c 5
+*  c++中的const常量与宏定义不同：
+*  const常量是由编译器处理并提供类型检查和作用域检查
+*  宏定义由预处理器处理，单纯的文本替换 （#define #undef  中间便是其作用域）
+*/
+void main()
+{
+	const int a = 1;
+	const int b = 2;
+	int arrary[a + b] = { 0 };
+}
