@@ -81,16 +81,51 @@ void printfT2(Teacher pT)
 	cout << pT.age << endl;
 	pT.age = 55;
 }
-int main()
+int main22()
 {
 	Teacher t1;
 	t1.age = 35;
 
-	printfT(&t1); 
-	printfT1(t1);	//pT是t1的别名,修改pT相当于修改t1
+	printfT(&t1);	//手动取地址
+	printfT1(t1);	//（c++编译器帮我们取了地址）pT是t1的别名,修改pT相当于修改t1
 	printfT2(t1);	//pT是形参，t1 copy 一份数据给pT 相当于 pT = t1;(这里有点意思，后续可见)
 	printf("t1.age:%d \n",t1.age);
 	return 0;
 }
 
 //continue 20 引用的意思和引用的本质
+/*
+*引用的意思：
+*	1）引用做为其它变量的别名而存在，因此在一些场合可以代替指针
+*	2）引用相对于指针来说具有更好的可读性和实用性
+*引用的本质：
+*	1) a 和 b就是同一块内存空间的别名
+*	2) 引用占不占内存空间？答.占用，和普通指针一样,其实引用在c++内部实现就是一个常量指针 
+*													   Type& name <--> Type * const name
+*	3)c++编译器在编译过程中使用常量指针做为引用的内部实现，因此引用所占用的空间大小与指针相同
+*	4)从使用的角度，引用会让人误会其只是一个别名，没有自己的存储空间。这是c++为了实用性而做出的细节隐藏
+*  void func(int &a)			void func(int* const a)
+*  {							{
+*		a = 5;			c++->>		*a = 5;
+*	}							}
+*	5) 间接赋值的后两个条件写在一起（没必要理解，就和学英语语法一样，啥用没有）
+*/	
+
+int main12()
+{
+	int a = 10;
+	int* b = NULL;
+
+	printf("&a:%p \n", &a);
+	printf("size a = %d \n", sizeof(b));
+	printf("&b:%p \n", &b); // ====> a 和 b就是同一块内存空间的别名
+	return 0;
+}
+
+//continue 21 函数返回值是引用（当左值右值）
+int main()
+{
+	
+	
+	return 0;
+}
