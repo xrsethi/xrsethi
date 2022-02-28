@@ -48,7 +48,7 @@ int getTeacher2(Teacher* & myp)		//可把 Teacher* ==》int& myp
 	}
 	myp->age = 36;
 }
-int main()
+int mainM()
 {
 	Teacher* pT1 = NULL;
 	//1 c语言中的二级指针
@@ -60,9 +60,58 @@ int main()
 	cout << "age:" << pT1->age<< endl;
 	freeTeacher(pT1);
 	cout << "hello..." << endl;
+	return 0;
 }
 
 /*
 *	continue day_02 03
-*	常引用
+*	常引用和普通引用
+*	常引用初始化方式
+*	1）用变量初始化常引用
+*	2）用字面量初始化常引用
 */
+
+int main1()
+{
+	//普通引用
+	int a = 10;
+	int& b = a;
+
+	//常引用
+	int x = 20; 
+	const int& y = x; //让变量拥有只读属性，做常数参数时比较大，不能通过y修改x
+	x = 30;		//没问题
+	//y = 40;		//不可修改
+	cout << "x = "<< x << endl;
+	cout << "7TH start" << endl;
+	{
+		const int d = 40;
+		//int& m = 41;	//普通引用引用字面量 请问字面量有没有内存
+						//引用就是给内存标号取多个别名，没内存啥都取不了
+		const int& w = 42;	//2）这就是const 和引用在一起的一个特殊点
+							//此时，引用w被使用，所以c++编译器透偷分配了空间，然后w指向这里
+
+	}
+	return 0;
+}
+
+void printTeacher(const Teacher*& p)
+{
+	//p->age = 40;
+	//在这里只能使用常引用，但是我们不能修改
+}
+//void printTeacher2(const Teacher* const p) //相当于这么写
+void printTeacher2(const Teacher& p)
+{
+	printf("p.age=%d",p.age);
+	//在这里只能使用常引用，但是我们不能修改
+}
+
+int main()
+{
+	Teacher t1;
+	t1.age = 10;
+
+	printTeacher2(t1);
+
+}
