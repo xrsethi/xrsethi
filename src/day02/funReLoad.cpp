@@ -79,14 +79,16 @@ int main2()
 	return 0;
 }
 
-
+#define TEST(a,b) printf("a = %d",a);
 /*
-*	day02_08 下接08节
+*	day02_09 下接09节
 */
 int main()
 {
-	
+	TEST(1);
 
 	cout <<"hi " << endl;
 
 }
+
+
