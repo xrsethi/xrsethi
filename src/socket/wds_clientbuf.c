@@ -10,8 +10,9 @@ SOCKET sServer;
 typedef struct
 {
     short	cmd;
-    short 	len;
-    short 	data;
+    short 	state;
+    short 	sdata;
+    float	fdata;
 } EthRxBuf_TypeDef;
 DWORD WINAPI ThreadFunc(LPVOID p)
 {
@@ -27,7 +28,7 @@ DWORD WINAPI ThreadFunc(LPVOID p)
             closesocket(sServer);
             return -1;
         }
-        printf("cmd = %d len = %d data = %d\n", RxBuf.cmd, RxBuf.len, RxBuf.data);
+        printf("cmd = %d state = %d sdata = %d fdata = %f\n", RxBuf.cmd, RxBuf.state, RxBuf.sdata, RxBuf.fdata);
     }
     return 0;
 }
@@ -54,7 +55,7 @@ int main(int argc, char* argv[])
     addrServ.sin_family = AF_INET;
     addrServ.sin_port = htons(PORT);
     //客户端只需要连接指定的服务器地址，127.0.0.1是本机的回环地址
-    addrServ.sin_addr.S_un.S_addr = inet_addr("192.168.1.122");
+    addrServ.sin_addr.S_un.S_addr = inet_addr("192.168.2.6");
 
     // 服务器Bind 客户端是进行连接
     int ret = connect(sServer, (SOCKADDR*)&addrServ, sizeof(SOCKADDR));//开始连接
@@ -75,9 +76,37 @@ int main(int argc, char* argv[])
     while (1)
     {
         i++;
-        TxBuf.cmd = i;
-        TxBuf.len = 3;
-        TxBuf.data = i + 5;
+        if (i == 1)
+        {
+            TxBuf.cmd = 0x01;
+            TxBuf.state = 0;
+            TxBuf.sdata = 0x00;
+            TxBuf.fdata = -12.00;
+        }
+
+        if (i == 2)
+        {
+            TxBuf.cmd = 0x0030;
+            TxBuf.state = 0;
+            TxBuf.sdata = 0;
+            TxBuf.fdata = 0;
+        }
+        if (i == 88)
+        {
+            TxBuf.cmd = 0x0031;
+            TxBuf.state = 0;
+            TxBuf.sdata = 0;
+            TxBuf.fdata = 0;
+        }
+#if 0
+        if (i > 3)
+        {
+            TxBuf.cmd = 0x02;
+            TxBuf.state = 0;
+            TxBuf.sdata = 0x00;
+            TxBuf.fdata = 0;
+        }
+#endif
         ret = send(sServer, &TxBuf, sizeof(TxBuf), 0);
         if (SOCKET_ERROR == ret)
         {
@@ -106,14 +135,16 @@ int main(int argc, char* argv[])
         printf("cmd = %d len = %d data = %d\n", RxBuf.cmd, RxBuf.len, RxBuf.data);
 #endif
         TxBuf.cmd = 0;
-        TxBuf.len = 0;
-        TxBuf.data = 0;
-        if (i > 10)
+        TxBuf.fdata = 0;
+        TxBuf.sdata = 0;
+        TxBuf.fdata= 0;
+        if (i >= 100)
         {
             i = 0;
             break;
         }
     }
+    while (1);
     //closesocket(sServer);
     //WSACleanup();
     return 0;
