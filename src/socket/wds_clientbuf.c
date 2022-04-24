@@ -78,12 +78,12 @@ int main(int argc, char* argv[])
         i++;
         if (i == 1)
         {
-            TxBuf.cmd = 0x01;
+            TxBuf.cmd = 0x20;
             TxBuf.state = 0;
-            TxBuf.sdata = 0x00;
-            TxBuf.fdata = -12.00;
+            TxBuf.sdata = 5;
+            TxBuf.fdata = 3.00;
         }
-
+#if 0
         if (i == 2)
         {
             TxBuf.cmd = 0x0030;
@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
             TxBuf.sdata = 0;
             TxBuf.fdata = 0;
         }
-#if 0
+
         if (i > 3)
         {
             TxBuf.cmd = 0x02;
