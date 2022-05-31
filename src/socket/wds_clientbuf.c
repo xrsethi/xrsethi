@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
     addrServ.sin_family = AF_INET;
     addrServ.sin_port = htons(PORT);
     //客户端只需要连接指定的服务器地址，127.0.0.1是本机的回环地址
-    addrServ.sin_addr.S_un.S_addr = inet_addr("192.168.2.6");
+    addrServ.sin_addr.S_un.S_addr = inet_addr("192.168.0.6");
 
     // 服务器Bind 客户端是进行连接
     int ret = connect(sServer, (SOCKADDR*)&addrServ, sizeof(SOCKADDR));//开始连接
@@ -71,18 +71,19 @@ int main(int argc, char* argv[])
 
     hThread = CreateThread(NULL, 0, ThreadFunc, 0, 0, &threadId);
     //当服务端是recv的时候，客户端就需要send，若两端同时进行收发则会卡在这里，因为recv和send是阻塞的
-    short i = 0;
+    short i = 0; 
     printf("我是主线程， pid = %d\n", GetCurrentThreadId());  //输出主线程pid
     while (1)
     {
         i++;
-        if (i == 1)
+        if(i == 1)
         {
-            TxBuf.cmd = 0x20;
+            TxBuf.cmd = 0x30;
             TxBuf.state = 0;
-            TxBuf.sdata = 5;
-            TxBuf.fdata = 3.00;
+            TxBuf.sdata = 0;
+            TxBuf.fdata =0;
         }
+	
 #if 0
         if (i == 2)
         {
