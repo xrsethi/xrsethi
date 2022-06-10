@@ -44,6 +44,7 @@ private:
 int main()
 {
 	Parent* base = NULL;
+	Child* Cp = NULL;
 	cout << "Parent ? base =" << sizeof(base) << endl;
 	Parent p1(20);
 	Child c1(30);
@@ -54,6 +55,9 @@ int main()
 
 	base = &c1;
 	base->print(); //Ö´ÐÐË­µÄº¯Êý
+	Cp = &c1;
+	Cp->print();
+	c1.print();
 	cout << "--------------------------" << endl;
 	{
 		Parent& base2 = p1;
