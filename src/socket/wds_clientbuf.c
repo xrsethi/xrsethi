@@ -72,16 +72,17 @@ int main(int argc, char* argv[])
     hThread = CreateThread(NULL, 0, ThreadFunc, 0, 0, &threadId);
     //当服务端是recv的时候，客户端就需要send，若两端同时进行收发则会卡在这里，因为recv和send是阻塞的
     short i = 0; 
+    short j = 0;
     printf("我是主线程， pid = %d\n", GetCurrentThreadId());  //输出主线程pid
     while (1)
     {
         i++;
         if(i == 1)
         {
-            TxBuf.cmd = 0x30;
+            TxBuf.cmd = 0x0020;
             TxBuf.state = 0;
-            TxBuf.sdata = 0;
-            TxBuf.fdata =0;
+            TxBuf.sdata = 3;
+            TxBuf.fdata = 4;
         }
 	
 #if 0
